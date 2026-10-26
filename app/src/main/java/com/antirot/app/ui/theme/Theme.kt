@@ -26,13 +26,10 @@ val MaterialTheme.themePreset: ThemePreset
 fun AntirotTheme(
     preset: ThemePreset = ThemePreset.DEFAULT,
     darkTheme: Boolean = isSystemInDarkTheme(),
+    spacing: Spacing = Spacing(),
     content: @Composable () -> Unit,
 ) {
-    // For Black + Yellow + Red, default to dark unless explicitly requested otherwise,
-    // as dark/black surfaces are its primary defining characteristic.
     val effectiveDarkTheme = if (preset == ThemePreset.BLACK_YELLOW_RED) {
-        // If system is dark, always dark. If system is light, Black-Yellow-Red can still be dark
-        // unless darkTheme is explicitly false. Here we respect the darkTheme parameter.
         darkTheme
     } else {
         darkTheme
@@ -63,9 +60,12 @@ fun AntirotTheme(
     CompositionLocalProvider(
         LocalThemePreset provides preset,
         LocalSemanticColors provides semanticColors,
+        LocalSpacing provides spacing,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
+            typography = AntirotTypography,
+            shapes = AntirotShapes,
             content = content,
         )
     }
