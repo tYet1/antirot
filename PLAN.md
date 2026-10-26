@@ -54,7 +54,7 @@ Goal: prove foreground detection and an intervention overlay work on real device
 - [x] **T-01.3** Typography scale, shape and spacing tokens.
 - [x] **T-01.4** Components: `AppCard`, `ProgressRing`, `LimitProgressBar`, `StatTile`, `SectionHeader`, `EmptyState`, `ErrorState`, `PrimaryButton/SecondaryButton`.
 - [x] **T-01.5** Preview gallery showing every component in every theme.
-- [ ] **T-01.6** Contrast audit script or test: every text/background pair in every theme against WCAG AA. Output `docs/contrast-report.md`; fix failures.
+- [x] **T-01.6** Contrast audit script or test: every text/background pair in every theme against WCAG AA. Output `docs/contrast-report.md`; fix failures.
 
 **Gate M1:** previews render in all themes; contrast report has no AA failures.
 
@@ -173,3 +173,4 @@ Schedules / time windows · app groups with shared limits · home-screen widget 
 - 2026-10-26 · M0 (in progress) · T-00.1–T-00.5 done and committed (a4c39a3). APK builds clean (35 tasks, 0 errors, 1 deprecation warning for `checkOpNoThrow` in UsageLogger — harmless, API 26+). T-00.6 is HUMAN — waiting for device test results before writing the intervention decision doc (T-00.7).
 - 2026-10-26 · M0 COMPLETE · T-00.6 real-device results received. T-00.7 decision written. Decision: **Approach A (Activity) primary** with 3 required fixes for M5 — (1) continue-grace suppression to break re-trigger loop, (2) fully opaque overlay background, (3) subscribe to `typeWindowsChanged` to catch Recents-resume path. Approach B not needed for MVP. Spike branch stays unmerged. Gate: awaiting user confirmation to proceed to M1.
 - 2026-10-26 · M0 GATE PASSED · Post-device-test fixes applied and confirmed working by user: Approach A fires once on app open, no intra-app re-triggers, Continue works, Recents resume works. All three fixes (prev-pkg guard, continuedAt grace, singleInstance taskAffinity) committed at 2effe82. M1 starting.
+- 2026-10-26 · M1 COMPLETE · Production project setup (single-module, package-by-feature, Hilt, Room, DataStore, Compose M3, ktlint, Clock abstraction). Full design system with 3 theme presets (Pink + Light Blue, Black + Yellow + Red, Green + White) with light and dark variants, typography, spacing tokens, shapes, core UI component library (AppCard, ProgressRing, LimitProgressBar, StatTile, SectionHeader, EmptyState, ErrorState, Primary/Secondary buttons), ComponentGalleryPreview, and WCAG AA contrast audit test verifying 90/90 color pairs pass with 0 failures (docs/contrast-report.md). ktlintCheck, testDebugUnitTest, assembleDebug all pass green. Gate M1 ready.
