@@ -1,0 +1,12 @@
+spike/local.properties
+spike/build/
+spike/app/build/
+spike/.gradle/
+spike/.kotlin/
+*.iml
+.idea/
+build-log*.txt
+aarcheck.txt
+build*.txt
+stderr*.txt
+stdout*.txt

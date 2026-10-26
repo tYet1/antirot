@@ -32,15 +32,15 @@ Status legend: `[ ]` todo · `[~]` in progress · `[x]` done · `[!]` blocked
 
 Goal: prove foreground detection and an intervention overlay work on real devices before building anything else.
 
-- [ ] **T-00.1** Minimal Compose project with an `AccessibilityService` that logs package changes from `TYPE_WINDOW_STATE_CHANGED` to an on-screen list and a log file.
+- [x] **T-00.1** Minimal Compose project with an `AccessibilityService` that logs package changes from `TYPE_WINDOW_STATE_CHANGED` to an on-screen list and a log file.
   *Done when:* switching apps adds correct entries; own app, keyboard and system UI are visible as separate noise sources in the log.
-- [ ] **T-00.2** Button that deep-links to Accessibility settings; status text showing whether the service is enabled.
+- [x] **T-00.2** Button that deep-links to Accessibility settings; status text showing whether the service is enabled.
   *Done when:* status updates after enabling/disabling.
-- [ ] **T-00.3** Hardcoded target list. When a target package is foregrounded, show an intervention via **Approach A** (Activity started from the service, `singleTask`, excluded from recents) with a 5 s countdown and Continue / Go Home buttons.
-- [ ] **T-00.4** Same behaviour via **Approach B** (accessibility overlay window, `TYPE_ACCESSIBILITY_OVERLAY`). Toggle between A and B in the spike UI.
-- [ ] **T-00.5** `UsageEvents` logger (ACTIVITY_RESUMED/PAUSED) behind a Usage Access check, to compare against accessibility events.
-- [ ] **T-00.6** 🧑 HUMAN: I test on real device(s). Agent produces `docs/spike-test-sheet.md` with exact steps and a results table (device, Android version, approach, latency, issues).
-- [ ] **T-00.7** Agent writes `docs/decisions/001-intervention.md` choosing A or B (or A with B fallback), with evidence from the test sheet.
+- [x] **T-00.3** Hardcoded target list. When a target package is foregrounded, show an intervention via **Approach A** (Activity started from the service, `singleTask`, excluded from recents) with a 5 s countdown and Continue / Go Home buttons.
+- [x] **T-00.4** Same behaviour via **Approach B** (accessibility overlay window, `TYPE_ACCESSIBILITY_OVERLAY`). Toggle between A and B in the spike UI.
+- [x] **T-00.5** `UsageEvents` logger (ACTIVITY_RESUMED/PAUSED) behind a Usage Access check, to compare against accessibility events.
+- [x] **T-00.6** 🧑 HUMAN: I test on real device(s). Agent produces `docs/spike-test-sheet.md` with exact steps and a results table (device, Android version, approach, latency, issues).
+- [x] **T-00.7** Agent writes `docs/decisions/001-intervention.md` choosing A or B (or A with B fallback), with evidence from the test sheet.
 
 **Gate M0:** decision recorded and I confirm. The spike branch is not merged.
 
@@ -164,9 +164,12 @@ Schedules / time windows · app groups with shared limits · home-screen widget 
 ## Decisions & deviations
 *(agent appends: date · task ID · decision · reason)*
 
--
+- 2026-10-26 · T-00.1..T-00.5 · Used `compileSdk=34` (not 35) because only `android-34` and `android-36` are installed on this machine; android-35 is absent. Compose BOM downgraded from 2024.09.01 → 2024.06.00 to stay compatible with AGP 8.5.2. Added `gradle.properties` with `android.useAndroidX=true` (missing from initial scaffold). Android theme changed from `Theme.Material3.DayNight.NoActionBar` (not available as XML) to `@android:style/Theme.NoTitleBar` — both activities use Compose `setContent` so the host theme only needs to suppress the default title bar.
+- 2026-10-26 · T-00.3 (post-device-test fix) · Three bugs fixed: (1) Added `lastKnownForeground` tracking — only trigger intervention when package changes FROM a different app; fixes intra-app navigation re-trigger (Instagram DMs → Feed) and the Continue re-trigger loop simultaneously. (2) `continuedAt` grace map (10 s) as belt-and-suspenders. (3) Changed `InterventionActivity` from `singleTask`/`taskAffinity=""` to `singleInstance`/`taskAffinity="com.antirot.spike.intervention"` to prevent target app's task preempting the intervention on Recents resume. Approach B overlay changed to `PixelFormat.OPAQUE` + `0xFF1A1A2E` background.
 
 ## Progress log
 *(agent appends at each milestone end: date · milestone · summary · deferred items · test results)*
 
--
+- 2026-10-26 · M0 (in progress) · T-00.1–T-00.5 done and committed (a4c39a3). APK builds clean (35 tasks, 0 errors, 1 deprecation warning for `checkOpNoThrow` in UsageLogger — harmless, API 26+). T-00.6 is HUMAN — waiting for device test results before writing the intervention decision doc (T-00.7).
+- 2026-10-26 · M0 COMPLETE · T-00.6 real-device results received. T-00.7 decision written. Decision: **Approach A (Activity) primary** with 3 required fixes for M5 — (1) continue-grace suppression to break re-trigger loop, (2) fully opaque overlay background, (3) subscribe to `typeWindowsChanged` to catch Recents-resume path. Approach B not needed for MVP. Spike branch stays unmerged. Gate: awaiting user confirmation to proceed to M1.
+- 2026-10-26 · M0 GATE PASSED · Post-device-test fixes applied and confirmed working by user: Approach A fires once on app open, no intra-app re-triggers, Continue works, Recents resume works. All three fixes (prev-pkg guard, continuedAt grace, singleInstance taskAffinity) committed at 2effe82. M1 starting.
