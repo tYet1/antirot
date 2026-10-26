@@ -53,7 +53,7 @@ Goal: prove foreground detection and an intervention overlay work on real device
 - [x] **T-01.2** Theme system: `AppTheme` with three presets (Pink + Light Blue, Black + Yellow + Red, Green + White), each with light/dark variants where sensible, plus semantic tokens (`success`, `warning`, `danger`, `timerTrack`).
 - [x] **T-01.3** Typography scale, shape and spacing tokens.
 - [x] **T-01.4** Components: `AppCard`, `ProgressRing`, `LimitProgressBar`, `StatTile`, `SectionHeader`, `EmptyState`, `ErrorState`, `PrimaryButton/SecondaryButton`.
-- [ ] **T-01.5** Preview gallery showing every component in every theme.
+- [x] **T-01.5** Preview gallery showing every component in every theme.
 - [ ] **T-01.6** Contrast audit script or test: every text/background pair in every theme against WCAG AA. Output `docs/contrast-report.md`; fix failures.
 
 **Gate M1:** previews render in all themes; contrast report has no AA failures.
