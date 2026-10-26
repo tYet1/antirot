@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Antirot</string>
+    <string name="accessibility_service_description">Antirot monitors when you open apps with active time limits to help you stay mindful and avoid distraction. It does not read, record, or transmit any on-screen content or keystrokes.</string>
 </resources>
