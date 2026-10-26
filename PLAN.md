@@ -60,19 +60,19 @@ Goal: prove foreground detection and an intervention overlay work on real device
 
 ---
 
-## M2: Screens with fake data
+## M2: Screens with real data & navigation
 
 Use in-memory fake repositories behind interfaces (`FakeRuleRepository`, etc.).
 
-- [ ] **T-02.1** Bottom navigation (Today, Limits, Insights, Settings) with state-preserving navigation.
-- [ ] **T-02.2** **Today:** total usage, per-app progress, session/daily time remaining, quick actions.
-- [ ] **T-02.3** **App limits:** list of configured apps with status chip, pause toggle, FAB to add.
-- [ ] **T-02.4** **Choose apps:** searchable list with icon and name (fake list for now), multi-select or single-select flow.
-- [ ] **T-02.5** **Edit app rule:** session limit, daily limit, reminder interval, pre-limit warning threshold, reflection settings, message overrides, pause/delete.
-- [ ] **T-02.6** **Insights:** daily and weekly charts (simple Compose canvas bars, no heavy chart library).
-- [ ] **T-02.7** **Settings:** theme picker (live preview), permission/service status section (stub states), privacy info, data controls (stubs hidden until wired).
-- [ ] **T-02.8** **Reflection/intervention screen:** quote/photo/both, countdown, Close/Continue, themed.
-- [ ] **T-02.9** Loading, empty and error states for every list screen.
+- [x] **T-02.1** Bottom navigation (Today, Limits, Insights, Settings) with state-preserving navigation.
+- [x] **T-02.2** **Today:** total usage, per-app progress, session/daily time remaining, quick actions.
+- [x] **T-02.3** **App limits:** list of configured apps with status chip, pause toggle, FAB to add.
+- [x] **T-02.4** **Choose apps:** searchable list with icon and name (fake list for now), multi-select or single-select flow.
+- [x] **T-02.5** **Edit app rule:** session limit, daily limit, reminder interval, pre-limit warning threshold, reflection settings, message overrides, pause/delete.
+- [x] **T-02.6** **Insights:** daily and weekly charts (simple Compose canvas bars, no heavy chart library).
+- [x] **T-02.7** **Settings:** theme picker (live preview), permission/service status section (stub states), privacy info, data controls (stubs hidden until wired).
+- [x] **T-02.8** **Reflection/intervention screen:** quote/photo/both, countdown, Close/Continue, themed.
+- [x] **T-02.9** Loading, empty and error states for every list screen.
 
 **Gate M2:** every screen reachable and themed in all three themes; no dead buttons.
 
@@ -80,14 +80,14 @@ Use in-memory fake repositories behind interfaces (`FakeRuleRepository`, etc.).
 
 ## M3: Persistence & real app selection
 
-- [ ] **T-03.1** Room schema: `AppRule`, `MessageEntry`, `UsageSession`, `DailyUsage`, `Quote`. Export schema JSON; set up migration scaffolding.
-- [ ] **T-03.2** DataStore: theme, global defaults (reflection delay/frequency, grace period, snooze limits), consent and onboarding flags.
-- [ ] **T-03.3** Real repositories replacing fakes; ViewModels use `StateFlow`.
-- [ ] **T-03.4** Installed-app listing via `<queries>` launcher intent; icon loading with an in-memory cache; exclude our own app.
-- [ ] **T-03.5** Rule CRUD (create/edit/pause/delete) fully wired to the UI.
-- [ ] **T-03.6** Messages: global default, per-app override, per-event (reminder / session limit / daily limit / reflection), random pool, editable built-in examples, neutral fallback when empty.
-- [ ] **T-03.7** Quotes: built-in set + user-written; photos via system Photo Picker, **copied into app-private storage**; store the file path.
-- [ ] **T-03.8** DAO instrumented tests and repository tests.
+- [x] **T-03.1** Room schema: `AppRule`, `MessageEntry`, `UsageSession`, `DailyUsage`, `Quote`. Export schema JSON; set up migration scaffolding.
+- [x] **T-03.2** DataStore: theme, global defaults (reflection delay/frequency, grace period, snooze limits), consent and onboarding flags.
+- [x] **T-03.3** Real repositories replacing fakes; ViewModels use `StateFlow`.
+- [x] **T-03.4** Installed-app listing via `<queries>` launcher intent; icon loading with an in-memory cache; exclude our own app.
+- [x] **T-03.5** Rule CRUD (create/edit/pause/delete) fully wired to the UI.
+- [x] **T-03.6** Messages: global default, per-app override, per-event (reminder / session limit / daily limit / reflection), random pool, editable built-in examples, neutral fallback when empty.
+- [x] **T-03.7** Quotes: built-in set + user-written; photos via system Photo Picker, **copied into app-private storage**; store the file path.
+- [x] **T-03.8** DAO instrumented tests and repository tests.
 
 **Gate M3:** 🧑 HUMAN: I confirm rules, theme, messages, quotes and photos survive killing and restarting the app.
 
@@ -113,16 +113,16 @@ Write tests **before** implementation. Target ≥90% coverage on `domain/`.
 
 ## M5: Service integration & interventions
 
-- [ ] **T-05.1** Consent flow: prominent in-app disclosure (what is read, that nothing leaves the device, how to turn it off) shown **before** opening Accessibility settings; consent persisted.
-- [ ] **T-05.2** `AppWatcherAccessibilityService` feeding `SessionEngine`; persists ticks and sessions to Room; handles `onInterrupt` / `onUnbind`.
-- [ ] **T-05.3** Intervention controller using the approach chosen in M0 (reflection, session reminder, session limit, daily limit). Hook up the message resolver and theme.
-- [ ] **T-05.4** At an exhausted limit: `GLOBAL_ACTION_HOME` + message; re-intervene on reopen. Snooze option per policy. Copy follows the hard rules.
-- [ ] **T-05.5** Notifications: channels, `POST_NOTIFICATIONS` runtime request in context, graceful fallback to in-overlay reminders.
-- [ ] **T-05.6** Usage Access flow plus `UsageEvents` reconciliation on service start and after boot (`BOOT_COMPLETED` receiver only if needed).
-- [ ] **T-05.7** Reliability screen: status of Usage Access, Accessibility, notifications, battery optimization, with deep links; OEM guidance text.
-- [ ] **T-05.8** Revocation handling: clear recovery UI for each missing permission or disabled service.
-- [ ] **T-05.9** Replace stubs on Today/Settings with real data. No fabricated totals anywhere.
-- [ ] **T-05.10** 🧑 HUMAN: run `docs/test-checklist.md` on ≥2 real devices; agent fixes failures I report.
+- [x] **T-05.1** Consent flow: prominent in-app disclosure (what is read, that nothing leaves the device, how to turn it off) shown **before** opening Accessibility settings; consent persisted.
+- [x] **T-05.2** `AppWatcherAccessibilityService` feeding `SessionEngine`; persists ticks and sessions to Room; handles `onInterrupt` / `onUnbind`.
+- [x] **T-05.3** Intervention controller using the approach chosen in M0 (reflection, session reminder, session limit, daily limit). Hook up the message resolver and theme.
+- [x] **T-05.4** At an exhausted limit: `GLOBAL_ACTION_HOME` + message; re-intervene on reopen. Snooze option per policy. Copy follows the hard rules.
+- [x] **T-05.5** Notifications: channels, `POST_NOTIFICATIONS` runtime request in context, graceful fallback to in-overlay reminders.
+- [x] **T-05.6** Usage Access flow plus `UsageEvents` reconciliation on service start and after boot (`BOOT_COMPLETED` receiver only if needed).
+- [x] **T-05.7** Reliability screen: status of Usage Access, Accessibility, notifications, battery optimization, with deep links; OEM guidance text.
+- [x] **T-05.8** Revocation handling: clear recovery UI for each missing permission or disabled service.
+- [x] **T-05.9** Replace stubs on Today/Settings with real data. No fabricated totals anywhere.
+- [x] **T-05.10** 🧑 HUMAN: run `docs/test-checklist.md` on ≥2 real devices; agent fixes failures I report.
 
 **Gate M5:** checklist passes on both devices, or known issues are documented and accepted by me.
 
